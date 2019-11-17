@@ -81,7 +81,7 @@ ClassicEditor.builtinPlugins = [
         // GroupVine plugins
         GVDataProcessorPlugin,
 //        UserAttribute,
-//        InputAttribute
+        InputAttribute
 //        MoreGroup,
 //        FontGroup,
 //        ListGroup,

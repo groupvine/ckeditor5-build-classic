@@ -4,7 +4,11 @@ import InputAttributeCommand from './inp-attribute-command';
 
 import './theme/inp-attribute.css';
 
-import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
+import {
+  toWidget,
+  viewToModelPositionOutsideModelElement,
+} from "@ckeditor/ckeditor5-widget/src/utils";
+
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
 import { rsvdAttributesBaseObjs,
@@ -31,6 +35,17 @@ export default class InputAttributeEditing extends Plugin {
 
         // console.log( 'InputAttributeEditing#init() got called' );
         this.editor.commands.add( 'gv-input-attribute', new InputAttributeCommand( this.editor ) );
+
+        // This viewToModelPosition utility is required to avoid the error
+        //    model-nodelist-offset-out-of-bounds  
+        // reported to the console.  This occurs since the model
+        // element (e.g., <gv-input-attribute type="email"></gv-input-attribute>
+        // has no text, but the view element has text, such as the input element and label.
+        this.editor.editing.mapper.on("viewToModelPosition",
+                                      viewToModelPositionOutsideModelElement(this.editor.model, (viewElement) => {
+                                          return viewElement.hasClass("gv-model-text-null");
+                                      })
+                                     );
 
         let attTypes = rsvdAttributesBaseObjs.concat(rsvdAttributesTextingObjs);
 
@@ -173,7 +188,7 @@ export default class InputAttributeEditing extends Plugin {
 
             if (typeObj == null) {
                 const inputAttributeView = viewWriter.createContainerElement( 'span', {
-                    class       : 'gv-input-invalid',
+                    class       : 'gv-input-invalid gv-model-text-null',
                     'data-type' : attType
                 }); 
 
@@ -187,7 +202,7 @@ export default class InputAttributeEditing extends Plugin {
             }
 
             const inputAttributeView = viewWriter.createContainerElement( 'span', {
-                class       : 'gv-input-attribute',
+                class       : 'gv-input-attribute gv-model-text-null',
                 'data-type' : attType
             }); 
 
@@ -211,7 +226,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.NumericQuantity:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-numeric',
+                    class       : 'gv-input-numeric gv-model-text-null',
                     name        : attType,
                     type        : 'number',
                     placeholder : 'Enter ' + typeObj.title,
@@ -224,7 +239,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.ChoiceMultiple:
                 inputElem = viewWriter.createContainerElement('span', {
                     id          : 'gv-input-wrapper-' + attType,
-                    class       : 'gv-input-wrapper-multichoice',
+                    class       : 'gv-input-wrapper-multichoice gv-model-text-null',
                     style       : 'display:inline-block;max-height:120px;overflow:auto;padding:5px;'
                 });
 
@@ -237,7 +252,7 @@ export default class InputAttributeEditing extends Plugin {
                     nameStr = attType + ':' + choices[i].value;
                     choiceElem = viewWriter.createContainerElement('input', {
                         id        : 'gv-input-' + nameStr,
-                        class     : 'gv-input-checkbox',
+                        class     : 'gv-input-checkbox gv-model-text-null',
                         name      : nameStr,
                         type      : 'checkbox',
                         disabled  : options.disabled ? true : null,
@@ -248,7 +263,7 @@ export default class InputAttributeEditing extends Plugin {
                     textElem = viewWriter.createText(' ' + choices[i].label);
 
                     choiceWrapper = viewWriter.createContainerElement('span', {
-                        class : 'gv-input-wrapper-checkbox',
+                        class : 'gv-input-wrapper-checkbox gv-model-text-null',
                         style : 'margin:10px 0;display:block'
                     });
 
@@ -263,7 +278,7 @@ export default class InputAttributeEditing extends Plugin {
 
                 inputElem = viewWriter.createContainerElement('select', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-singlechoice',
+                    class       : 'gv-input-singlechoice gv-model-text-null',
                     name        : attType,
                     placeholder : 'Select ' + typeObj.title,
                     disabled    : options.disabled ? true : null,
@@ -275,6 +290,7 @@ export default class InputAttributeEditing extends Plugin {
 
                 for (let i = 0; i < choices.length; i++) {
                     choiceElem = viewWriter.createContainerElement('option', {
+                        class : 'gv-model-text-null',
                         value : choices[i].value
                     });
                     textElem = viewWriter.createText(choices[i].label);
@@ -285,7 +301,7 @@ export default class InputAttributeEditing extends Plugin {
                 choiceElem = viewWriter.createContainerElement('option', {
                     value    : '',
                     selected : true,
-                    class    : 'gv-option-placholder'
+                    class    : 'gv-option-placholder gv-model-text-null'
                     // disabled : true,
                     // hidden   : true   // comment out to leave as a dropdown option
                 });
@@ -298,7 +314,7 @@ export default class InputAttributeEditing extends Plugin {
                 // <input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br>
                 inputElem = viewWriter.createEmptyElement('input', {
                     id       : 'gv-input-' + attType,
-                    class    : 'gv-input-checkbox',
+                    class    : 'gv-input-checkbox gv-model-text-null',
                     name     : attType,
                     type     : 'checkbox',
                     value    : attType,
@@ -313,7 +329,7 @@ export default class InputAttributeEditing extends Plugin {
             default:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-text',
+                    class       : 'gv-input-text gv-model-text-null',
                     name        : attType,
                     type        : 'text',
                     placeholder : 'Enter ' + typeObj.title,
