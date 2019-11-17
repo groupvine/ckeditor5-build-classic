@@ -87,5 +87,12 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-inspector": "^1.4.0",
+    "cheerio-nunjucks": "github:groupvine/cheerio-nunjucks",
+    "css-loader": "^3.2.0",
+    "gv-types": "github:groupvine/gv-types",
+    "mini-css-extract-plugin": "^0.8.0"
   }
 }

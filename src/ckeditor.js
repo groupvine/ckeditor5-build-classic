@@ -29,10 +29,31 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 
+//
+// Custom GroupVine plugins
+//
+
+import GVDataProcessorPlugin from './data-proc/data-proc';
+import UserAttribute from './user-attribute/user-attribute';
+import InputAttribute from './inp-attribute/inp-attribute';
+//import MoreGroup from './more-group/moregroup'; 
+//import FontGroup from './font-group/fontgroup'; 
+//import ListGroup from './list-group/listgroup'; 
+//import AlignGroup from './align-group/aligngroup'; 
+
+import Placeholder from './placeholder';
+
 export default class ClassicEditor extends ClassicEditorBase {}
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
+        // WEIRD ... Just including this demo plugin makes the bug go away
+        // that was resulting in the editor hanging when selecting custom 
+        // widgets in the editor, in the reverse direction (selecting then 
+        // dragging cursor toward top of page).  Is this causing a
+        // a needed library to be pulled in, or overwritten with fixed one??
+        Placeholder,  
+
 	Essentials,
 	UploadAdapter,
 	Autoformat,
@@ -54,13 +75,46 @@ ClassicEditor.builtinPlugins = [
 	Paragraph,
 	PasteFromOffice,
 	Table,
-	TableToolbar
+	TableToolbar,
+
+
+        // GroupVine plugins
+        GVDataProcessorPlugin,
+//        UserAttribute,
+//        InputAttribute
+//        MoreGroup,
+//        FontGroup,
+//        ListGroup,
+//        AlignGroup
 ];
 
 // Editor configuration.
 ClassicEditor.defaultConfig = {
+        // For CKEditor demo widget:
+        placeholderProps: {
+            types: ["First Name", "Date"],
+        },
+
+        fontSize: {
+            options: [
+                8,
+                10,
+                12,
+                'default',
+                16,
+                18,
+                20,
+                24,
+                28,
+                32,
+                40,
+                50
+            ]
+        },
+
 	toolbar: {
 		items: [
+                        "placeholder",  // CKEditor Demo widget
 			'heading',
 			'|',
 			'bold',
@@ -76,6 +130,8 @@ ClassicEditor.defaultConfig = {
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
+                        'gv-metatag',
+                        'gv-input-attribute',
 			'undo',
 			'redo'
 		]
@@ -95,6 +151,17 @@ ClassicEditor.defaultConfig = {
 			'mergeTableCells'
 		]
 	},
+
+        heading: {
+            options: [
+                // view.name and view.classes will apply to generated HTML; class will apply to heading in Editor dropdown
+                { model: 'paragraph', title: 'Normal', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: {name : 'h1', classes : 'gv-h1'}, title: 'Title', class: 'ck-heading_heading1 gv-heading1' },
+                { model: 'heading2', view: {name : 'h2', classes : 'gv-h2'}, title: 'Section', class: 'ck-heading_heading2 gv-heading2' },
+                { model: 'heading3', view: {name : 'h3', classes : 'gv-h3'}, title: 'Subsection', class: 'ck-heading_heading3 gv-heading3' }
+            ]
+        },
+
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
