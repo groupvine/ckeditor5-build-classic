@@ -149,7 +149,7 @@ ClassicEditor.defaultConfig = {
         // https://ckeditor.com/docs/ckeditor5/latest/features/image.html
         // 'imageStyle:side',  'side',
         image : {
-            toolbar: [ 'imageTextAlternative', 'imageStyle:full', 
+            toolbar: [ 'imageTextAlternative',
                        '|', 
                        'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight' ],
             styles : [
