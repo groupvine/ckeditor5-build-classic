@@ -23,6 +23,7 @@ import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
 import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
+import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock';
 import Link from '@ckeditor/ckeditor5-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
 // import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
@@ -71,6 +72,7 @@ ClassicEditor.builtinPlugins = [
 	ImageUpload,
         ImageResize,
 	Indent,
+        IndentBlock,
 	Link,
 	List,
 	// MediaEmbed,
@@ -146,6 +148,12 @@ ClassicEditor.defaultConfig = {
 			'redo',
 		]
 	},
+
+        indentBlock: {
+            offset: 30,
+            unit: 'px'
+        },
+
         // https://ckeditor.com/docs/ckeditor5/latest/features/image.html
         // 'imageStyle:side',  'side',
         image : {
