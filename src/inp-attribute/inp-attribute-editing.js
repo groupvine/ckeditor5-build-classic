@@ -78,35 +78,14 @@ export default class InputAttributeEditing extends Plugin {
         const schema = this.editor.model.schema;
 
         schema.register( 'gv-input-attribute', {
-            // Allow wherever text is allowed plus in tableCells
-            allowIn: 'tableCell',
+            // Allow wherever text is allowed
             allowWhere: '$text',
-
-            // The inp-attribute will act as an inline node:
-            isInline: true,
 
             // The inline widget is self-contained so it cannot be split by the caret and can be selected:
             isObject: true,
 
             // The inp-attribute can have many types, firstname, lastname, email, id, etc.
-            allowAttributes: [ 'type' ]
-        } );
-
-        schema.register( 'gv-input-label', {
-            // Allow wherever text is allowed plus in tableCells
-            allowIn: 'tableCell',
-            allowWhere: '$text',
-
-            allowContentOf: '$block',
-
-            // The inp-attribute will act as an inline node:
-            isInline: true,
-
-            // The inline widget is self-contained so it cannot be split by the caret and can be selected:
-            isObject: false
-
-            // The inp-attribute can have many types, firstname, lastname, email, id, etc.
-            // allowAttributes: [ 'type' ]
+            allowAttributes: [ 'type', 'alignment' ]
         } );
     }
 
@@ -127,7 +106,7 @@ export default class InputAttributeEditing extends Plugin {
 
         conversion.for( 'upcast' ).elementToElement( {
             view: {
-                name: 'span',
+                name: 'div',
                 classes: [ 'gv-input-attribute' ],
                 converterPriority: 'highest'  // be sure it converts ahead of, e.g., outside wrapper figures or whatever
             },
@@ -160,24 +139,6 @@ export default class InputAttributeEditing extends Plugin {
         } );
 
 
-        conversion.for('upcast').elementToElement( {
-            view: {
-                name: 'span',
-                classes: [ 'gv-input-label' ],
-                converterPriority: 'highest'
-            },
-            model: 'gv-input-label'
-        } );
-
-        conversion.for('downcast').elementToElement( {
-            model: 'gv-input-label',
-            view: {
-                name: 'span',
-                classes: 'gv-input-label'
-            }
-        } );
-
-
         // Helper method for both downcast converters.
         function createInputAttributeView( modelItem, viewWriter, options ) {
             if (!options) { options = {}; }
@@ -187,7 +148,7 @@ export default class InputAttributeEditing extends Plugin {
             const typeObj = typesDict[attType];
 
             if (typeObj == null) {
-                const inputAttributeView = viewWriter.createContainerElement( 'span', {
+                const inputAttributeView = viewWriter.createContainerElement( 'div', {
                     class       : 'gv-input-invalid gv-no-model-text',
                     'data-type' : attType
                 }); 
@@ -201,7 +162,7 @@ export default class InputAttributeEditing extends Plugin {
                 return inputAttributeView;
             }
 
-            const inputAttributeView = viewWriter.createContainerElement( 'span', {
+            const inputAttributeView = viewWriter.createContainerElement( 'div', {
                 class       : 'gv-input-attribute gv-no-model-text',
                 'data-type' : attType
             }); 
@@ -212,6 +173,8 @@ export default class InputAttributeEditing extends Plugin {
             // https://ckeditor.com/docs/ckeditor5/latest/framework/guides/architecture/editing-engine.html#element-types-and-custom-data
 
             // Insert the input element
+
+            let labelElemText = null;
 
             let inputElem;
             let textElem;
@@ -226,7 +189,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.NumericQuantity:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-numeric',
+                    class       : 'gv-input-wrapper gv-input-numeric',
                     name        : attType,
                     type        : 'number',
                     placeholder : 'Enter ' + typeObj.title,
@@ -239,7 +202,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.ChoiceMultiple:
                 inputElem = viewWriter.createContainerElement('span', {
                     id          : 'gv-input-wrapper-' + attType,
-                    class       : 'gv-input-wrapper-multichoice gv-no-model-text',
+                    class       : 'gv-input-wrapper gv-input-multichoice gv-no-model-text',
                     style       : 'display:inline-block;max-height:120px;overflow:auto;padding:5px;'
                 });
 
@@ -278,7 +241,7 @@ export default class InputAttributeEditing extends Plugin {
 
                 inputElem = viewWriter.createContainerElement('select', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-singlechoice gv-no-model-text',
+                    class       : 'gv-input-wrapper gv-input-singlechoice gv-no-model-text',
                     name        : attType,
                     placeholder : 'Select ' + typeObj.title,
                     disabled    : options.disabled ? true : null,
@@ -314,7 +277,7 @@ export default class InputAttributeEditing extends Plugin {
                 // <input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br>
                 inputElem = viewWriter.createEmptyElement('input', {
                     id       : 'gv-input-' + attType,
-                    class    : 'gv-input-checkbox',
+                    class    : 'gv-input-wrapper gv-input-checkbox',
                     name     : attType,
                     type     : 'checkbox',
                     value    : attType,
@@ -322,14 +285,11 @@ export default class InputAttributeEditing extends Plugin {
                     style     : 'transform: scale(1.5);margin-right: 10px;'
                 });
 
-                textElem = viewWriter.createText(' ' + typeObj.title + '?');
-                viewWriter.insert( viewWriter.createPositionAt( inputAttributeView, 0 ), textElem );
-
                 break;
             default:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-text',
+                    class       : 'gv-input-wrapper gv-input-text',
                     name        : attType,
                     type        : 'text',
                     placeholder : 'Enter ' + typeObj.title,
@@ -338,7 +298,24 @@ export default class InputAttributeEditing extends Plugin {
                 });
             }
 
+            let title = typeObj.title;
+
+            if (typeObj.abbrev === 'subgroups') {
+                title = 'Select sub-groups';
+            } else if (typeObj.abbrev === 'lists') {
+                title = 'Select lists';
+            } 
+
+            labelElemText = viewWriter.createText(title + ':');
+
+            let labelElem = viewWriter.createContainerElement( 'span', {
+                class       : 'gv-input-label'
+            }); 
+            viewWriter.insert( viewWriter.createPositionAt( labelElem, 0 ), labelElemText );
+
+
             viewWriter.insert( viewWriter.createPositionAt( inputAttributeView, 0 ), inputElem );
+            viewWriter.insert( viewWriter.createPositionAt( inputAttributeView, 0 ), labelElem );
 
             return inputAttributeView;
         }
