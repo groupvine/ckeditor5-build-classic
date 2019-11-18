@@ -43,7 +43,7 @@ export default class InputAttributeEditing extends Plugin {
         // has no text, but the view element has text, such as the input element and label.
         this.editor.editing.mapper.on("viewToModelPosition",
                                       viewToModelPositionOutsideModelElement(this.editor.model, (viewElement) => {
-                                          return viewElement.hasClass("gv-model-text-null");
+                                          return viewElement.hasClass("gv-no-model-text");
                                       })
                                      );
 
@@ -188,11 +188,11 @@ export default class InputAttributeEditing extends Plugin {
 
             if (typeObj == null) {
                 const inputAttributeView = viewWriter.createContainerElement( 'span', {
-                    class       : 'gv-input-invalid gv-model-text-null',
+                    class       : 'gv-input-invalid gv-no-model-text',
                     'data-type' : attType
                 }); 
 
-                let invalidText = viewWriter.createText('[[Invalid attribute type: ' + attType + ']]');
+                let invalidText = viewWriter.createText('[Invalid attribute type: ' + attType + ']');
                 viewWriter.insert( viewWriter.createPositionAt( inputAttributeView, 0 ), invalidText );
 
                 let errMsg = "GroupVine unable to find outdated(?) attribute type: " + attType;
@@ -202,7 +202,7 @@ export default class InputAttributeEditing extends Plugin {
             }
 
             const inputAttributeView = viewWriter.createContainerElement( 'span', {
-                class       : 'gv-input-attribute gv-model-text-null',
+                class       : 'gv-input-attribute gv-no-model-text',
                 'data-type' : attType
             }); 
 
@@ -226,7 +226,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.NumericQuantity:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-numeric gv-model-text-null',
+                    class       : 'gv-input-numeric',
                     name        : attType,
                     type        : 'number',
                     placeholder : 'Enter ' + typeObj.title,
@@ -239,7 +239,7 @@ export default class InputAttributeEditing extends Plugin {
             case ValueType.ChoiceMultiple:
                 inputElem = viewWriter.createContainerElement('span', {
                     id          : 'gv-input-wrapper-' + attType,
-                    class       : 'gv-input-wrapper-multichoice gv-model-text-null',
+                    class       : 'gv-input-wrapper-multichoice gv-no-model-text',
                     style       : 'display:inline-block;max-height:120px;overflow:auto;padding:5px;'
                 });
 
@@ -252,7 +252,7 @@ export default class InputAttributeEditing extends Plugin {
                     nameStr = attType + ':' + choices[i].value;
                     choiceElem = viewWriter.createContainerElement('input', {
                         id        : 'gv-input-' + nameStr,
-                        class     : 'gv-input-checkbox gv-model-text-null',
+                        class     : 'gv-input-checkbox',
                         name      : nameStr,
                         type      : 'checkbox',
                         disabled  : options.disabled ? true : null,
@@ -263,7 +263,7 @@ export default class InputAttributeEditing extends Plugin {
                     textElem = viewWriter.createText(' ' + choices[i].label);
 
                     choiceWrapper = viewWriter.createContainerElement('span', {
-                        class : 'gv-input-wrapper-checkbox gv-model-text-null',
+                        class : 'gv-input-wrapper-checkbox gv-no-model-text',
                         style : 'margin:10px 0;display:block'
                     });
 
@@ -278,7 +278,7 @@ export default class InputAttributeEditing extends Plugin {
 
                 inputElem = viewWriter.createContainerElement('select', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-singlechoice gv-model-text-null',
+                    class       : 'gv-input-singlechoice gv-no-model-text',
                     name        : attType,
                     placeholder : 'Select ' + typeObj.title,
                     disabled    : options.disabled ? true : null,
@@ -290,7 +290,7 @@ export default class InputAttributeEditing extends Plugin {
 
                 for (let i = 0; i < choices.length; i++) {
                     choiceElem = viewWriter.createContainerElement('option', {
-                        class : 'gv-model-text-null',
+                        class : 'gv-no-model-text',
                         value : choices[i].value
                     });
                     textElem = viewWriter.createText(choices[i].label);
@@ -301,7 +301,7 @@ export default class InputAttributeEditing extends Plugin {
                 choiceElem = viewWriter.createContainerElement('option', {
                     value    : '',
                     selected : true,
-                    class    : 'gv-option-placholder gv-model-text-null'
+                    class    : 'gv-option-placholder gv-no-model-text'
                     // disabled : true,
                     // hidden   : true   // comment out to leave as a dropdown option
                 });
@@ -314,7 +314,7 @@ export default class InputAttributeEditing extends Plugin {
                 // <input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br>
                 inputElem = viewWriter.createEmptyElement('input', {
                     id       : 'gv-input-' + attType,
-                    class    : 'gv-input-checkbox gv-model-text-null',
+                    class    : 'gv-input-checkbox',
                     name     : attType,
                     type     : 'checkbox',
                     value    : attType,
@@ -329,7 +329,7 @@ export default class InputAttributeEditing extends Plugin {
             default:
                 inputElem = viewWriter.createEmptyElement('input', {
                     id          : 'gv-input-' + attType,
-                    class       : 'gv-input-text gv-model-text-null',
+                    class       : 'gv-input-text',
                     name        : attType,
                     type        : 'text',
                     placeholder : 'Enter ' + typeObj.title,

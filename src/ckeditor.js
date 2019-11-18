@@ -29,6 +29,10 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 
+import Font from '@ckeditor/ckeditor5-font/src/font';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
+
 //
 // Custom GroupVine plugins
 //
@@ -41,19 +45,12 @@ import InputAttribute from './inp-attribute/inp-attribute';
 //import ListGroup from './list-group/listgroup'; 
 //import AlignGroup from './align-group/aligngroup'; 
 
-import Placeholder from './placeholder';
+// import Placeholder from './placeholder';
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
-        // WEIRD ... Just including this demo plugin makes the bug go away
-        // that was resulting in the editor hanging when selecting custom 
-        // widgets in the editor, in the reverse direction (selecting then 
-        // dragging cursor toward top of page).  Is this causing a
-        // a needed library to be pulled in, or overwritten with fixed one??
-        Placeholder,  
-
 	Essentials,
 	UploadAdapter,
 	Autoformat,
@@ -76,11 +73,14 @@ ClassicEditor.builtinPlugins = [
 	PasteFromOffice,
 	Table,
 	TableToolbar,
+	Font,
+        Alignment,
+        RemoveFormat,
 
 
         // GroupVine plugins
         GVDataProcessorPlugin,
-//        UserAttribute,
+        UserAttribute,
         InputAttribute
 //        MoreGroup,
 //        FontGroup,
@@ -90,11 +90,6 @@ ClassicEditor.builtinPlugins = [
 
 // Editor configuration.
 ClassicEditor.defaultConfig = {
-        // For CKEditor demo widget:
-        placeholderProps: {
-            types: ["First Name", "Date"],
-        },
-
         fontSize: {
             options: [
                 8,
@@ -114,8 +109,8 @@ ClassicEditor.defaultConfig = {
 
 	toolbar: {
 		items: [
-                        "placeholder",  // CKEditor Demo widget
 			'heading',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
 			'|',
 			'bold',
 			'italic',
@@ -123,13 +118,15 @@ ClassicEditor.defaultConfig = {
 			'bulletedList',
 			'numberedList',
 			'|',
+                        'alignment',
 			'indent',
 			'outdent',
 			'|',
 			'imageUpload',
 			'blockQuote',
 			'insertTable',
-			'mediaEmbed',
+                        'removeformat',
+		    // 'mediaEmbed',
                         'gv-metatag',
                         'gv-input-attribute',
 			'undo',
@@ -151,6 +148,10 @@ ClassicEditor.defaultConfig = {
 			'mergeTableCells'
 		]
 	},
+
+        alignment: {
+            options: [ 'left', 'center', 'right', 'justify' ]
+        },
 
         heading: {
             options: [
