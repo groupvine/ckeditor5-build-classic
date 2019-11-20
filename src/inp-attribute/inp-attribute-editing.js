@@ -195,7 +195,7 @@ export default class InputAttributeEditing extends Plugin {
                     placeholder : 'Enter ' + typeObj.title,
                     size        : 10,
                     disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 12px;color: #444;margin: 3px;padding: 3px;'
+                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
 
                 break;
@@ -245,7 +245,7 @@ export default class InputAttributeEditing extends Plugin {
                     name        : attType,
                     placeholder : 'Select ' + typeObj.title,
                     disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 12px;color: #444;margin: 3px;padding: 3px;'
+                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
 
                 choices = JSON.parse(JSON.stringify(typeObj.choices));
@@ -294,7 +294,7 @@ export default class InputAttributeEditing extends Plugin {
                     type        : 'text',
                     placeholder : 'Enter ' + typeObj.title,
                     disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 12px;color: #444;margin: 3px;padding: 3px;'
+                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
             }
 
