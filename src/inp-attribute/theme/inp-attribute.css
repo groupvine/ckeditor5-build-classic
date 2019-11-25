@@ -9,6 +9,10 @@
   font-family: arial, sans-serif
 }
 
+.gv-input-attribute.block {
+  display: table;
+}
+
 .gv-input-attribute input,
 .gv-input-attribute select {
   width: 170px;

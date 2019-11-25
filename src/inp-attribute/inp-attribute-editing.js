@@ -163,7 +163,7 @@ export default class InputAttributeEditing extends Plugin {
             }
 
             const inputAttributeView = viewWriter.createContainerElement( 'div', {
-                class       : 'gv-input-attribute gv-no-model-text',
+                class       : 'gv-input-attribute block gv-no-model-text',
                 'data-type' : attType
             }); 
 
