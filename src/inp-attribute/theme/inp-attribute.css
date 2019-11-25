@@ -1,9 +1,16 @@
+/*
+  Should be kept consistent with Input attributes section of 
+  gv-mailweb/client/src/sass/styles.scss
+*/
+
 .gv-input-attribute {
-  display: table;
-  margin: 3px 0;
+  display: inline-table;
+  margin: 4px 0;
   /* width: 350px;  alignment not working anyway, so comment this out */
 }
-.gv-input-attribute input {
+.gv-input-attribute input,
+.gv-input-attribute select {
+  width: 170px;
   font-size: 14px;
 }
 
@@ -14,6 +21,7 @@
   width: 160px;
   padding-right: 10px;
   font-size: 14px;
+  color: #777;
 }
 
 .gv-input-wrapper {
