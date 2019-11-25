@@ -194,8 +194,8 @@ export default class InputAttributeEditing extends Plugin {
                     type        : 'number',
                     placeholder : 'Enter ' + typeObj.title,
                     size        : 10,
-                    disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
+                    disabled    : options.disabled ? true : null
+                    // style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
 
                 break;
@@ -203,7 +203,7 @@ export default class InputAttributeEditing extends Plugin {
                 inputElem = viewWriter.createContainerElement('span', {
                     id          : 'gv-input-wrapper-' + attType,
                     class       : 'gv-input-wrapper gv-input-multichoice gv-no-model-text',
-                    style       : 'display:inline-block;max-height:120px;overflow:auto;padding:5px;'
+                    style       : 'max-height:120px;overflow:auto;padding:5px;'
                 });
 
                 choices = JSON.parse(JSON.stringify(typeObj.choices));
@@ -244,8 +244,8 @@ export default class InputAttributeEditing extends Plugin {
                     class       : 'gv-input-wrapper gv-input-singlechoice gv-no-model-text',
                     name        : attType,
                     placeholder : 'Select ' + typeObj.title,
-                    disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
+                    disabled    : options.disabled ? true : null
+                    // style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
 
                 choices = JSON.parse(JSON.stringify(typeObj.choices));
@@ -293,8 +293,8 @@ export default class InputAttributeEditing extends Plugin {
                     name        : attType,
                     type        : 'text',
                     placeholder : 'Enter ' + typeObj.title,
-                    disabled    : options.disabled ? true : null,
-                    style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
+                    disabled    : options.disabled ? true : null
+                    // style       : 'font-size: 14px;color: #444;margin: 3px;padding: 3px;'
                 });
             }
 

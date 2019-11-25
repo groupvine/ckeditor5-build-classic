@@ -6,12 +6,17 @@
 .gv-input-attribute {
   display: inline-table;
   margin: 4px 0;
-  /* width: 350px;  alignment not working anyway, so comment this out */
+  font-family: arial, sans-serif
 }
+
 .gv-input-attribute input,
 .gv-input-attribute select {
   width: 170px;
   font-size: 14px;
+}
+
+.gv-input-attribute input.gv-input-checkbox {
+  width: 15px;                    
 }
 
 .gv-input-label {
