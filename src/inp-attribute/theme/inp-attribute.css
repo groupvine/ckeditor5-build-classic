@@ -27,10 +27,15 @@
   display: table-cell;
   text-align: right;
   vertical-align: middle;                  
-  width: 160px;
+  width: 200px;
   padding-right: 10px;
   font-size: 14px;
   color: #777;
+}
+@media only screen and (min-width: 400px)  {
+  .gv-input-label {
+    width: 160px;
+  }
 }
 
 .gv-input-wrapper {
