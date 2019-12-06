@@ -52,7 +52,7 @@ export default class InputAttributeEditing extends Plugin {
         attTypes.push(new NumericIntegerAttribute('Grade'));
 
         // For testing groups & lists
-        attTypes.push(new MultiChoiceAttribute('lists', {
+        attTypes.push(new MultiChoiceAttribute('list', {
             isStd   : true,
             choices : [
                 { value : '123',  label : 'Runners List' },
@@ -61,7 +61,7 @@ export default class InputAttributeEditing extends Plugin {
             ]
         }));
 
-        attTypes.push(new MultiChoiceAttribute('subgroups', {
+        attTypes.push(new MultiChoiceAttribute('group', {
             isStd   : true,
             choices : [
                 { value : '123',  label : 'Staff Group' },
@@ -300,9 +300,9 @@ export default class InputAttributeEditing extends Plugin {
 
             let title = typeObj.title;
 
-            if (typeObj.abbrev === 'subgroups') {
+            if (typeObj.abbrev === 'group') {
                 title = 'Select sub-groups';
-            } else if (typeObj.abbrev === 'lists') {
+            } else if (typeObj.abbrev === 'list') {
                 title = 'Select lists';
             } 
 

@@ -52,9 +52,9 @@ function getDropdownItemsDefinitions( inputAttTypes ) {
         // the attribute names wherever used, tho 'groups' and 'lists'
         // are pretty special in any case)
 
-        if (label.toLowerCase() === 'subgroups') {
+        if (label.toLowerCase() === 'group') {
             label = 'Join Subgroups';
-        } else if (label.toLowerCase() === 'lists') {
+        } else if (label.toLowerCase() === 'list') {
             label = 'Join Lists';
         }
 
