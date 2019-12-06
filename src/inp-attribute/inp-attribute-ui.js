@@ -53,9 +53,9 @@ function getDropdownItemsDefinitions( inputAttTypes ) {
         // are pretty special in any case)
 
         if (label.toLowerCase() === 'group') {
-            label = 'Join Subgroups';
+            label = 'Select sub-groups';
         } else if (label.toLowerCase() === 'list') {
-            label = 'Join Lists';
+            label = 'Select lists';
         }
 
         const definition = {
