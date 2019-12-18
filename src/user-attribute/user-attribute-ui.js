@@ -24,7 +24,7 @@ export default class UserAttributeUI extends Plugin {
             dropdownView.buttonView.set( {
                 // The t() function helps localize the editor. All strings enclosed in t() can be
                 // translated and change when the language of the editor changes.
-                label: t( 'Name' ),
+                label: t( 'Attribute' ),
                 tooltip: "Insert member attribute value",
                 withText: true
             } );
