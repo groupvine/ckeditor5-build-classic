@@ -2,6 +2,8 @@ ClassicEditor.create( document.querySelector( '#editor' ), {
     userAttribute: {
         metaImgBaseUrl : 'http://metaimg.localhost.test:8098'
     },
+    emailWidget: {
+    },
     heading: {
         options: [
             // view.name and view.classes will apply to generated HTML; class will apply to heading in Editor dropdown
