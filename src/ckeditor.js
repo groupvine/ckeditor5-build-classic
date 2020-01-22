@@ -44,6 +44,8 @@ import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleu
 import GVDataProcessorPlugin from './data-proc/data-proc';
 import UserAttribute from './user-attribute/user-attribute';
 import InputAttribute from './inp-attribute/inp-attribute';
+import EmailWidget from './email-widget/email-widget';
+
 //import MoreGroup from './more-group/moregroup'; 
 //import FontGroup from './font-group/fontgroup'; 
 //import ListGroup from './list-group/listgroup'; 
@@ -90,7 +92,8 @@ ClassicEditor.builtinPlugins = [
         // GroupVine plugins
         GVDataProcessorPlugin,
         UserAttribute,
-        InputAttribute
+        InputAttribute,
+        EmailWidget
 
         // No longer used, now with responsive toolbar
         // MoreGroup,
@@ -130,7 +133,8 @@ ClassicEditor.defaultConfig = {
 			'numberedList',
                         'alignment',
 			'|',
-                        'gv-metatag',
+                        'gv-user-attribute',
+                        'gv-email-widget',
                         'gv-input-attribute',
                         'fontColor', 'fontBackgroundColor',
 			'insertTable',

@@ -15,7 +15,7 @@ export default class UserAttributeUI extends Plugin {
 
         // The "user-attribute" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
-        editor.ui.componentFactory.add( 'gv-metatag', locale => {
+        editor.ui.componentFactory.add( 'gv-user-attribute', locale => {
             const dropdownView = createDropdown( locale );
 
             // Populate the list in the dropdown with items.
