@@ -35,7 +35,7 @@ export default class UserAttributeEditing extends Plugin {
 
         schema.register( 'gv-metatag', {
             // Allow wherever text is allowed plus in tableCells
-            allowIn: 'tableCell',
+            // allowIn: 'tableCell',
             allowWhere: '$text',
 
             // The user-attribute will act as an inline node:

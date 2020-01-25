@@ -16,9 +16,15 @@ export default class UserAttributeCommand extends Command {
             writer.setSelection( userAtt, 'after' );  // was: 'on'
 
             // Add space, to avoid problem where the gv-metatag is deleted for some
-            // reason after immidately typing a space after the gv-metatag
-            // No longer needed after v15 upgrade?
-            // writer.insertText( ' ', userAtt, 'after' );
+            // or unable to type after entering something like:
+            //    Hello <attribute>
+            // (Some text, a space, then insert attribute, then try to type)
+            // Hopefully, this gets fixed with CKEditor upgrade!
+
+            writer.insertText( ' ', userAtt, 'after' );
+
+            // Move selection back to just after the attribute
+            writer.setSelection( userAtt, 'after' );
 
             /*
             // From: https://stackoverflow.com/questions/54162496/ckeditor5-insert-text-without-breaking-current-element

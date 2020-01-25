@@ -32,9 +32,7 @@ export default class EmailWidgetUI extends Plugin {
             // Execute the command when the dropdown item is clicked (executed).
             this.listenTo( dropdownView, 'execute', evt => {
                 if (evt.source.gv_action === 'event') {
-                    console.log("Firing  ", evt.source.gv_event);
-
-                    // Deprecated method:
+                    // Deprecated method (was needed for IE, but not anymore?):
                     //   let event = document.createEvent('Event');
                     //   event.initEvent(evt.source.gv_event, true, true);
 
