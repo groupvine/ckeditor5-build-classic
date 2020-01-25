@@ -31,8 +31,19 @@ export default class EmailWidgetUI extends Plugin {
 
             // Execute the command when the dropdown item is clicked (executed).
             this.listenTo( dropdownView, 'execute', evt => {
-                editor.execute( 'gv-metatag', { value: evt.source.commandParam } );
-                editor.editing.view.focus();
+                if (evt.source.gv_action === 'event') {
+                    console.log("Firing  ", evt.source.gv_event);
+
+                    // Deprecated method:
+                    //   let event = document.createEvent('Event');
+                    //   event.initEvent(evt.source.gv_event, true, true);
+
+                    let event = new Event(evt.source.gv_event);
+                    document.dispatchEvent(event);
+                } else {
+                    editor.execute( 'gv-metatag', { value: evt.source.commandParam } );
+                    editor.editing.view.focus();
+                };
             } );
 
             return dropdownView;
@@ -49,13 +60,24 @@ function getDropdownItemsDefinitions( emailWidgetTypes ) {
             model: new Model( {
                 commandParam: typeObj.type,
                 label: typeObj.label,
-                withText: true
+                withText: true,
+                gv_action: null
             } )
         };
 
         // Add the item definition to the collection.
         itemDefinitions.add( definition );
     }
+
+    itemDefinitions.add({
+        type: 'button',
+        model: new Model({
+            label: 'New Email Widget',
+            withText: true,
+            gv_action: 'event',
+            gv_event: 'editorAddWidget'
+        })
+    });
 
     return itemDefinitions;
 }

@@ -14,9 +14,9 @@ export default class EmailWidgetEditing extends Plugin {
 
         this.editor.config.define( 'emailWidget', {
             types: [
-                { label : 'Comments',     type : 'sew/comments' },
-                { label : 'Simple RSVP',  type : 'sew/rsvp'  },
-                { label : 'How Many?',    type : 'sew/howmany'     }
+                { label : 'Comments',     type : 'ew/comments' },
+                { label : 'Simple RSVP',  type : 'ew/rsvp'  },
+                { label : 'How Many?',    type : 'ew/howmany'     }
             ]
         } );
     }
