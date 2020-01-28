@@ -13,6 +13,7 @@ export default class EmailWidgetEditing extends Plugin {
         // console.log( 'EmailWidgetEditing#init() got called' );
 
         this.editor.config.define( 'emailWidget', {
+            canAddWidget : true,
             types: [
                 { label : 'Comments',     type : 'ew/comments' },
                 { label : 'Simple RSVP',  type : 'ew/rsvp'  },

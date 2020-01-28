@@ -12,6 +12,7 @@ export default class EmailWidgetUI extends Plugin {
         const editor   = this.editor;
         const t = editor.t;   // translator, used in t() calls below
         const emailWidgetTypes = this.editor.config.get('emailWidget.types');
+        const canAddWidget     = this.editor.config.get('emailWidget.canAddWidget');
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -19,7 +20,7 @@ export default class EmailWidgetUI extends Plugin {
             const dropdownView = createDropdown( locale );
 
             // Populate the list in the dropdown with items.
-            addListToDropdown( dropdownView, getDropdownItemsDefinitions( emailWidgetTypes ) );
+            addListToDropdown( dropdownView, getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) );
 
             dropdownView.buttonView.set( {
                 // The t() function helps localize the editor. All strings enclosed in t() can be
@@ -49,7 +50,7 @@ export default class EmailWidgetUI extends Plugin {
     }
 }
 
-function getDropdownItemsDefinitions( emailWidgetTypes ) {
+function getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) {
     const itemDefinitions = new Collection();
 
     for ( const typeObj of emailWidgetTypes ) {
@@ -67,15 +68,17 @@ function getDropdownItemsDefinitions( emailWidgetTypes ) {
         itemDefinitions.add( definition );
     }
 
-    itemDefinitions.add({
-        type: 'button',
-        model: new Model({
-            label: 'New Email Widget',
-            withText: true,
-            gv_action: 'event',
-            gv_event: 'editorAddWidget'
-        })
-    });
+    if (canAddWidget) {
+        itemDefinitions.add({
+            type: 'button',
+            model: new Model({
+                label: 'New Email Widget',
+                withText: true,
+                gv_action: 'event',
+                gv_event: 'editorAddWidget'
+            })
+        });
+    }
 
     return itemDefinitions;
 }
