@@ -24,7 +24,7 @@ export default class UserAttributeCommand extends Command {
             writer.insertText( ' ', userAtt, 'after' );
 
             // Move selection back to just after the attribute
-            writer.setSelection( userAtt, 'after' );
+            // writer.setSelection( userAtt, 'after' );
 
             /*
             // From: https://stackoverflow.com/questions/54162496/ckeditor5-insert-text-without-breaking-current-element
