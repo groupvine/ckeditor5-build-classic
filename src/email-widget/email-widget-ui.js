@@ -27,6 +27,7 @@ export default class EmailWidgetUI extends Plugin {
                 // translated and change when the language of the editor changes.
                 label: t( 'Widget' ),
                 tooltip: "Insert email widget",
+                class: 'widgetMenu',
                 withText: true
             } );
 

@@ -26,6 +26,7 @@ export default class UserAttributeUI extends Plugin {
                 // translated and change when the language of the editor changes.
                 label: t( 'Personalize' ),
                 tooltip: "Insert member attribute or other recipient-specific value",
+                class: 'personalizeMenu',
                 withText: true
             } );
 
