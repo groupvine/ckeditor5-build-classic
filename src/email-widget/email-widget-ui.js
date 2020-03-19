@@ -11,9 +11,11 @@ export default class EmailWidgetUI extends Plugin {
     init() {
         const editor   = this.editor;
         const t = editor.t;   // translator, used in t() calls below
-        const emailWidgetTypes = this.editor.config.get('emailWidget.types');
-        const canAddWidget     = this.editor.config.get('emailWidget.canAddWidget');
-        const assignEwId       = this.editor.config.get('emailWidget.assignEwId');
+        const widgetConfig = this.editor.config.get('emailWidget');
+
+        const emailWidgetTypes = widgetConfig['types'];
+        const canAddWidget     = widgetConfig['canAddWidget'];
+        const assignEwId       = widgetConfig['assignEwId'];   // BTW can't use editor.config.get() directly for CB funcs
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -44,13 +46,17 @@ export default class EmailWidgetUI extends Plugin {
                 } else {
                     let type = evt.source.commandParam;
                     if (assignEwId != null) {
-                        let ewId = assignEwId(type);
-                        if (ewId) {
-                            type += '?ewid=' + ewId;
-                        }
+                        let ewId = assignEwId(type, (ewId) => {
+                            if (ewId) {
+                                type += '?ewid=' + ewId;
+                            }
+                            editor.execute( 'gv-metatag', { value: type } );
+                            editor.editing.view.focus();
+                        });
+                    } else {
+                        editor.execute( 'gv-metatag', { value: type } );
+                        editor.editing.view.focus();
                     }
-                    editor.execute( 'gv-metatag', { value: type } );
-                    editor.editing.view.focus();
                 };
             } );
 

@@ -3,6 +3,9 @@ ClassicEditor.create( document.querySelector( '#editor' ), {
         metaImgBaseUrl : 'http://metaimg.localhost.test:8098'
     },
     emailWidget: {
+        assignEwId : function(type, cb) { 
+            cb(123);
+        }
     },
     heading: {
         options: [
