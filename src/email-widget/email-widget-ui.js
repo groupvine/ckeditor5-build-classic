@@ -13,6 +13,7 @@ export default class EmailWidgetUI extends Plugin {
         const t = editor.t;   // translator, used in t() calls below
         const emailWidgetTypes = this.editor.config.get('emailWidget.types');
         const canAddWidget     = this.editor.config.get('emailWidget.canAddWidget');
+        const assignEwId       = this.editor.config.get('emailWidget.assignEwId');
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -41,7 +42,14 @@ export default class EmailWidgetUI extends Plugin {
                     let event = new Event(evt.source.gv_event);
                     document.dispatchEvent(event);
                 } else {
-                    editor.execute( 'gv-metatag', { value: evt.source.commandParam } );
+                    let type = evt.source.commandParam;
+                    if (assignEwId != null) {
+                        let ewId = assignEwId(type);
+                        if (ewId) {
+                            type += '?ewid=' + ewId;
+                        }
+                    }
+                    editor.execute( 'gv-metatag', { value: type } );
                     editor.editing.view.focus();
                 };
             } );
