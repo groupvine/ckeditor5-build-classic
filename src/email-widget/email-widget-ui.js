@@ -47,11 +47,13 @@ export default class EmailWidgetUI extends Plugin {
                     let type = evt.source.commandParam;
                     if (assignEwId != null) {
                         let ewId = assignEwId(type, (ewId) => {
-                            if (ewId) {
+                            if (ewId == null) {
+                                alert("Sorry, unable to reach Email Widget server to create a new Email Widget");
+                            } else {
                                 type += '?ewid=' + ewId;
+                                editor.execute( 'gv-metatag', { value: type } );
+                                editor.editing.view.focus();
                             }
-                            editor.execute( 'gv-metatag', { value: type } );
-                            editor.editing.view.focus();
                         });
                     } else {
                         editor.execute( 'gv-metatag', { value: type } );
