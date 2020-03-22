@@ -5,6 +5,8 @@ import { addListToDropdown, createDropdown } from '@ckeditor/ckeditor5-ui/src/dr
 import Collection from '@ckeditor/ckeditor5-utils/src/collection';
 import Model from '@ckeditor/ckeditor5-ui/src/model';
 
+import  ClickObserver from '@ckeditor/ckeditor5-engine/src/view/observer/clickobserver';
+
 
 export default class EmailWidgetUI extends Plugin {
 
@@ -15,7 +17,8 @@ export default class EmailWidgetUI extends Plugin {
 
         const emailWidgetTypes = widgetConfig['types'];
         const canAddWidget     = widgetConfig['canAddWidget'];
-        const assignEwId       = widgetConfig['assignEwId'];   // BTW can't use editor.config.get() directly for CB funcs
+        const assignEwId       = widgetConfig['assignEwId'];      // BTW can't use editor.config.get() directly for 
+        const configEwDialog   = widgetConfig['configEwDialog'];  //     callback functions, like these two
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -64,7 +67,37 @@ export default class EmailWidgetUI extends Plugin {
             } );
 
             return dropdownView;
-        } );
+        });
+
+        //
+        // Register for click events
+        // see: https://github.com/ckeditor/ckeditor5/issues/2077
+        //
+
+        const view = editor.editing.view;
+        const viewDocument = view.document;
+
+        view.addObserver( ClickObserver );  // Only do this once per editor instance I assume?
+
+        editor.listenTo( viewDocument, 'click', ( evt, data ) => {
+            const modelElement = editor.editing.mapper.toModelElement( data.target );
+
+            if ( modelElement == null || modelElement.name !== 'gv-metatag' ) {
+                return;
+            }
+
+            let type = modelElement.getAttribute('type');
+            if (type == null || !type.startsWith('ew/')) {
+                return;
+            }
+
+            if (configEwDialog) {
+                configEwDialog({
+                    type : modelElement.getAttribute('type'),
+                    ewId : modelElement.getAttribute('ewId')
+                });
+            }
+        });
     }
 }
 
