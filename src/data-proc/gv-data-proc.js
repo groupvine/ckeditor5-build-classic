@@ -3,6 +3,8 @@ import HtmlDataProcessor from  '@ckeditor/ckeditor5-engine/src/dataprocessor/htm
 import { load as htmlRead } from 'cheerio-nunjucks';
 import { html as htmlWrite } from 'cheerio-nunjucks';
 
+const urlParse = require('url-parse');
+
 export default class GVDataProcessor {
     constructor() {
         this._htmlProc = new HtmlDataProcessor();
@@ -36,21 +38,21 @@ export default class GVDataProcessor {
                 return true; // continue loop
             }
 
-            imgSrc = imgSrc.toLowerCase();
-
-            let index = imgSrc.indexOf('//');
-            if (index > -1) {
-                imgSrc = imgSrc.substring(index + 2);
+            let parsed = urlParse(imgSrc, true);
+            if (!parsed) {
+                return true;
             }
 
+            let host = parsed.hostname.toLowerCase();
+
             // TODO: Paramaterize?
-            if (!imgSrc.startsWith('metaimg.localhost') &&
-                !imgSrc.startsWith('metaimg.groupvine') &&
-                !imgSrc.startsWith('metaimg.trivy')) {
+            if (!host.startsWith('metaimg.localhost') &&
+                !host.startsWith('metaimg.groupvine') &&
+                !host.startsWith('metaimg.trivy')) {
                 return true; // continue loop
             }
 
-            let parts = imgSrc.split('/');
+            let parts = parsed.pathname.split('/');
             if (parts.length < 3) {
                 return true; // continue loop
             }
@@ -58,7 +60,18 @@ export default class GVDataProcessor {
             let macroType = parts[1];
             let microType = parts[2];
 
-            let newElem = `<span class="gv-metatag">${macroType}/${microType}</span>`;
+            let attNames = Object.keys(parsed.query);
+            let dataAtts = [];
+            for (let i = 0; i < attNames.length; i++) {
+                dataAtts.push('data-' + attNames[i] + '=' + parsed.query[attNames[i]]);
+            }
+
+            let dataAttStr = dataAtts.join(' ');
+            if (dataAttStr) {
+                dataAttStr = ' ' + dataAttStr;
+            }
+
+            let newElem = `<span class="gv-metatag"${dataAttStr}>${macroType}/${microType}</span>`;
 
             if (tagName === 'figure') {
                 newElem = `<p> ${newElem} </p>`;

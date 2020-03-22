@@ -45,20 +45,21 @@ export default class EmailWidgetUI extends Plugin {
                     document.dispatchEvent(event);
                 } else {
                     let type = evt.source.commandParam;
-                    if (assignEwId != null) {
-                        let ewId = assignEwId(type, (ewId) => {
-                            if (ewId == null) {
-                                alert("Sorry, unable to reach Email Widget server to create a new Email Widget");
-                            } else {
-                                type += '?ewid=' + ewId;
-                                editor.execute( 'gv-metatag', { value: type } );
-                                editor.editing.view.focus();
-                            }
-                        });
-                    } else {
-                        editor.execute( 'gv-metatag', { value: type } );
-                        editor.editing.view.focus();
+                    if (assignEwId == null) {
+                        return alert("ERROR: no callback has been configured for assigning the EW Id");
                     }
+
+                    let ewId = assignEwId(type, (ewId) => {
+                        if (ewId == null) {
+                            alert("Sorry, unable to reach Email Widget server to create a new Email Widget");
+                        } else if (ewId === false) {
+                            alert("Sorry, you already have the maximum number of Email Widgets " +
+                                  "permitted in a single email at your service level");
+                        } else {
+                            editor.execute( 'gv-metatag', { value: type, ewId : ewId } );
+                            editor.editing.view.focus();
+                        }
+                    });
                 };
             } );
 

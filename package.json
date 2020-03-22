@@ -98,6 +98,7 @@
     "cheerio-nunjucks": "github:groupvine/cheerio-nunjucks",
     "css-loader": "^3.2.0",
     "gv-types": "github:groupvine/gv-types",
-    "mini-css-extract-plugin": "^0.8.0"
+    "mini-css-extract-plugin": "^0.8.0",
+    "url-parse": "^1.4.7"
   }
 }

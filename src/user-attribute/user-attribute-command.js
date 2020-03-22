@@ -2,12 +2,19 @@ import Command from '@ckeditor/ckeditor5-core/src/command';
 
 export default class UserAttributeCommand extends Command {
 
-    execute( { value } ) {
+    // This is shared with email-widgets code, so support ewId arg
+    // (using EW2015 parameter destructuring syntax)
+
+    execute( { value, ewId } ) {
         const editor = this.editor;
 
         editor.model.change( writer => {
             // Create a <gv-metatag> elment with name "type" attribute...
-            const userAtt = writer.createElement( 'gv-metatag', { type: value } );
+            let atts = {type : value};
+            if (ewId !== null) {
+                atts['ewId'] = ewId;
+            }
+            const userAtt = writer.createElement( 'gv-metatag', atts );
 
             // ... and insert it into the document.
             editor.model.insertContent( userAtt );

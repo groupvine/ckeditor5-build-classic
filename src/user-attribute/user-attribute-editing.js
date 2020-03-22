@@ -44,8 +44,8 @@ export default class UserAttributeEditing extends Plugin {
             // The inline widget is self-contained so it cannot be split by the caret and can be selected:
             isObject: true,
 
-            // The user-attribute can have many types, firstname, lastname, email, id, etc.
-            allowAttributes: [ 'type' ]
+            // The user-attribute can have many types: firstname, lastname, email, id, etc.
+            allowAttributes: [ 'type', 'ewId' ]
         } );
     }
 
@@ -60,10 +60,24 @@ export default class UserAttributeEditing extends Plugin {
                 converterPriority: 'highest'  // be sure it converts ahead of regular images
             },
             model: ( viewElement, modelWriter ) => {
+                // Note that this is called after the custom GV data processor's 
+                // toView() has run
+
                 // Extract the "type" from the src URL
                 const attType = viewElement.getChild(0).data.trim();
+
+                let data = {
+                    type : attType
+                };
+
+                // Check for supported data attrbutes
+                let ewId = viewElement.getAttribute('data-ewid');
+                if (ewId != null) {
+                    data['ewId'] = ewId;
+                }
+
                 // console.log("Upcast: " + attType);
-                return modelWriter.createElement( 'gv-metatag', { type : attType } );
+                return modelWriter.createElement( 'gv-metatag', data );
             }
         } );
 
@@ -85,10 +99,14 @@ export default class UserAttributeEditing extends Plugin {
         // Helper method for both downcast converters.
         function createUserAttributeView( modelItem, viewWriter ) {
             const attType = modelItem.getAttribute( 'type' );
+            const attEwId = modelItem.getAttribute( 'ewId' );
 
-            const userAttributeView = viewWriter.createContainerElement( 'img', {
-                 src : metaImgBaseUrl + '/' + attType
-            } );
+            let src = metaImgBaseUrl + '/' + attType;
+            if (attEwId != null) {
+                src += "?ewid=" + attEwId;
+            }
+
+            const userAttributeView = viewWriter.createContainerElement( 'img', {src : src});
             // console.log("Downcast: " + attType);
 
             return userAttributeView;
