@@ -92,10 +92,8 @@ export default class EmailWidgetUI extends Plugin {
             }
 
             if (configEwDialog) {
-                configEwDialog({
-                    type : modelElement.getAttribute('type'),
-                    ewId : modelElement.getAttribute('ewId')
-                });
+                configEwDialog(modelElement.getAttribute('type'),
+                               modelElement.getAttribute('ewId'));
             }
         });
     }
