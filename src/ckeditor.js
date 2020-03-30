@@ -42,6 +42,7 @@ import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleu
 //
 
 import GVDataProcessorPlugin from './data-proc/data-proc';
+import GVClipboardPlugin from './clipboard/clipboard';
 import UserAttribute from './user-attribute/user-attribute';
 import InputAttribute from './inp-attribute/inp-attribute';
 import EmailWidget from './email-widget/email-widget';
@@ -91,6 +92,7 @@ ClassicEditor.builtinPlugins = [
 
         // GroupVine plugins
         GVDataProcessorPlugin,
+        GVClipboardPlugin,
         UserAttribute,
         InputAttribute,
         EmailWidget
