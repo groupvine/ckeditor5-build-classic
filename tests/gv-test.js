@@ -4,7 +4,10 @@ ClassicEditor.create( document.querySelector( '#editor' ), {
     },
     emailWidget: {
         assignEwId : function(type, cb) { 
-            cb(123);
+            cb({ewId: 123});
+        },
+        createEwDialog : function(cb) {
+            cb({ewType: 'ew/testname', ewId: 123});
         }
     },
     heading: {

@@ -18,7 +18,8 @@ export default class EmailWidgetUI extends Plugin {
         const emailWidgetTypes = widgetConfig['types'];
         const canAddWidget     = widgetConfig['canAddWidget'];
         const assignEwId       = widgetConfig['assignEwId'];      // BTW can't use editor.config.get() directly for 
-        const configEwDialog   = widgetConfig['configEwDialog'];  //     callback functions, like these two
+        const configEwDialog   = widgetConfig['configEwDialog'];  //     callback functions
+        const createEwDialog   = widgetConfig['createEwDialog'];  //     like these three
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -39,27 +40,31 @@ export default class EmailWidgetUI extends Plugin {
 
             // Execute the command when the dropdown item is clicked (executed).
             this.listenTo( dropdownView, 'execute', evt => {
-                if (evt.source.gv_action === 'event') {
-                    // Deprecated method (was needed for IE, but not anymore?):
-                    //   let event = document.createEvent('Event');
-                    //   event.initEvent(evt.source.gv_event, true, true);
+                if (evt.source.gv_action === 'createNewEW') {
+                    if (createEwDialog == null) {
+                        return alert("ERROR: no callback has been configured for creating a new EW");
+                    }
 
-                    let event = new Event(evt.source.gv_event);
-                    document.dispatchEvent(event);
-                } else {
+                    let ewId = createEwDialog( (results) => {
+                        if (results.error) {
+                            alert(results.error);
+                        } else {
+                            editor.execute( 'gv-metatag', { value: results.ewType, ewId : results.ewId } );
+                            editor.editing.view.focus();
+                        }
+                    });
+
+                } else if (evt.source.gv_action === 'insertStdEW') {
                     let type = evt.source.commandParam;
                     if (assignEwId == null) {
                         return alert("ERROR: no callback has been configured for assigning the EW Id");
                     }
 
-                    let ewId = assignEwId(type, (ewId) => {
-                        if (ewId == null) {
-                            alert("Sorry, unable to reach Email Widget server to create a new Email Widget");
-                        } else if (ewId === false) {
-                            alert("Sorry, you already have the maximum number of Email Widgets " +
-                                  "permitted in a single email at your service level");
+                    let ewId = assignEwId(type, (results) => {
+                        if (results.error) {
+                            alert(results.error);
                         } else {
-                            editor.execute( 'gv-metatag', { value: type, ewId : ewId } );
+                            editor.execute( 'gv-metatag', { value: type, ewId : results.ewId } );
                             editor.editing.view.focus();
                         }
                     });
@@ -109,7 +114,7 @@ function getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) {
                 commandParam: typeObj.type,
                 label: typeObj.label,
                 withText: true,
-                gv_action: null
+                gv_action: 'insertStdEW'
             } )
         };
 
@@ -123,8 +128,7 @@ function getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) {
             model: new Model({
                 label: 'New Email Widget',
                 withText: true,
-                gv_action: 'event',
-                gv_event: 'editorAddWidget'
+                gv_action: 'createNewEW'
             })
         });
     }

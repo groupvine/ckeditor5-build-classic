@@ -22,7 +22,7 @@ export default class GVClipboardPlugin extends Plugin {
 
             if (anyMetaImgEWs(htmlContent)) {
                 evt.stop();  // prevent further processing
-                alert('Sorry, to insert an Email Widget, use the "Widget" menu. ' +
+                alert('To insert an Email Widget use the "Widget" menu. ' +
                       '(Cloning Email Widgets by cutting-and-pasting is not permitted.)');
                 return;
             }
