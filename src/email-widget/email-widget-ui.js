@@ -126,7 +126,7 @@ function getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) {
         itemDefinitions.add({
             type: 'button',
             model: new Model({
-                label: 'New Choice Widget', // TODO if nec., pass in label
+                label: 'Custom Choice', // TODO if nec., pass in label
                 withText: true,
                 gv_action: 'createNewEW'
             })
