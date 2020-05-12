@@ -6,6 +6,6 @@ export default class GVDataProcessorPlugin extends Plugin {
     constructor( editor ) {
         super( editor );
 
-        editor.data.processor = new GVDataProcessor();
+        editor.data.processor = new GVDataProcessor(editor);
     }
 }

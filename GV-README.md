@@ -40,3 +40,7 @@ npm install
 npm run build
 ```
 
+Also, check whether ckEditorContentStyling() styles need updating (in
+gv-types/style.ts, and
+[here](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/content-styles.html)
+

@@ -3,8 +3,8 @@ import HtmlDataProcessor from  '@ckeditor/ckeditor5-engine/src/dataprocessor/htm
 import { convertMetaImgsToView } from '../lib';
 
 export default class GVDataProcessor {
-    constructor() {
-        this._htmlProc = new HtmlDataProcessor();
+    constructor(editor) {
+        this._htmlProc = new HtmlDataProcessor(editor.data.viewDocument);
     }
 
     toData( viewFragment ) {
