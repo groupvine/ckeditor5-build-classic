@@ -8,7 +8,6 @@ export default class GVDataProcessor {
     }
 
     toData( viewFragment ) {
-        console.log("DataProcessor.toData", viewFragment.toString());
         return this._htmlProc.toData(viewFragment);
     }
 
@@ -27,8 +26,6 @@ export default class GVDataProcessor {
         //
 
         let viewData = this._htmlProc.toView(newData);
-
-        console.log("DataProcessor.toView returning", viewData.toString());
 
         return viewData;
     }
