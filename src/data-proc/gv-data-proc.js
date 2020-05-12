@@ -24,11 +24,19 @@ export default class GVDataProcessor {
         // Now use original HTMLDataProcessor's toView() 
         //
 
-        console.log("DataProcessor.toView post:", newData.toString());
+        if (newData) {
+            console.log("DataProcessor.toView post:", newData.toString());
+        } else {
+            console.log("DataProcessor.toView post: null!?");
+        }
 
         let viewData = this._htmlProc.toView(newData);
 
-        console.log("DataProcessor.toView done:", viewData.toString());
+        if (viewData) {
+            console.log("DataProcessor.toView done:", viewData.toString());
+        } else {
+            console.log("DataProcessor.toView done: null!?");
+        }
 
         return viewData;
     }
