@@ -76,6 +76,8 @@ function checkForMetaImg($, elem, options) {
 
 export function convertMetaImgsToView(data) {
 
+    return data;  // DEBUGGING
+
     let $ = htmlRead(data);
 
     // Check <figure>s first, so we replace entire figure element
