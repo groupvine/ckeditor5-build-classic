@@ -18,6 +18,8 @@ export default class UserAttributeUI extends Plugin {
         editor.ui.componentFactory.add( 'gv-user-attribute', locale => {
             const dropdownView = createDropdown( locale );
 
+            dropdownView.set('class', 'personalizeDropdown');
+
             // Populate the list in the dropdown with items.
             addListToDropdown( dropdownView, getDropdownItemsDefinitions( userAttTypes ) );
 

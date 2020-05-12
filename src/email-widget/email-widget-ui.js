@@ -26,6 +26,8 @@ export default class EmailWidgetUI extends Plugin {
         editor.ui.componentFactory.add( 'gv-email-widget', locale => {
             const dropdownView = createDropdown( locale );
 
+            dropdownView.set('class', 'widgetsDropdown');
+
             // Populate the list in the dropdown with items.
             addListToDropdown( dropdownView, getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) );
 
