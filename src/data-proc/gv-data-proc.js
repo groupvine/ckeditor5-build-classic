@@ -8,6 +8,7 @@ export default class GVDataProcessor {
     }
 
     toData( viewFragment ) {
+        console.log("DataProcessor.toData:", viewFragment.toString());
         return this._htmlProc.toData(viewFragment);
     }
 
@@ -15,17 +16,19 @@ export default class GVDataProcessor {
         // Convert metaimg tags to tags like <span
         // class="gv-metatag">... </span> to avoid CKEditor5 core
         // conversions from changing <img> tags to <figure><img>...
-        console.log("DataProcessor.toView", data.toString());
+        console.log("DataProcessor.toView pre:", data.toString());
 
         let newData = convertMetaImgsToView(data);
 
-        // console.log("HTML to send to HTMLDataProcessor: " + data);
-        
         //
         // Now use original HTMLDataProcessor's toView() 
         //
 
+        console.log("DataProcessor.toView post:", newData.toString());
+
         let viewData = this._htmlProc.toView(newData);
+
+        console.log("DataProcessor.toView done:", viewData.toString());
 
         return viewData;
     }
