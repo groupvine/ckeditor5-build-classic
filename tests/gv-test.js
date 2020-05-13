@@ -1,4 +1,6 @@
 ClassicEditor.create( document.querySelector( '#editor' ), {
+    debugLevel: 10,
+
     userAttribute: {
         metaImgBaseUrl : 'http://metaimg.localhost.test:8098'
     },
@@ -27,6 +29,8 @@ ClassicEditor.create( document.querySelector( '#editor' ), {
     window.editor = editor;
     console.log( "STARTED" );
 
+    editor.setData(initContent);
+
     const modelDocument = editor.model.document;
 
     function updatePreview() {
@@ -49,3 +53,87 @@ ClassicEditor.create( document.querySelector( '#editor' ), {
 }).catch( err => {
     console.error( err.stack );
 });
+
+
+const initContent = `
+  <style>
+    .gv-h2 {
+      color:white;
+      background-color:green;
+    }
+    .gv-heading2 {
+      color:white !important;
+      background-color:green !important;
+    }
+
+    .ck.ck-dropdown .ck-button.ck-dropdown__button .ck-button__label {
+      width: 5.5em;
+    }
+    .ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__panel .ck-list__item {
+      min-width: 10em;
+    }
+
+    .ck.ck-dropdown .ck-dropdown__arrow {
+      display:none;
+    }
+
+    .ck-dropdown__panel {
+      max-height: 250px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  </style>
+
+  <div id="content">
+
+    Hello there <img src="http://metaimg.localhost.test:8098/attribute/firstname">,
+
+    <p>
+      <img src="http://metaimg.localhost.test:8098/ew/count?ewid=36">
+    </p>
+
+    <p>
+      <img src="http://metaimg.localhost.test:8098/ew/feedback?ewid=22">
+    </p>
+
+    <!--
+      <span class="placeholder">{First name}</span>
+      <span class="placeholder">{Last name}</span>
+    -->
+
+    <div class="gv-input-attribute" data-type="optedout"></div>
+
+    <div class="gv-input-attribute" data-type="optedout"></div>
+
+    <h2 class="gv-h2">
+      DB: Here's the main heading
+    </h2>
+
+    <h4>
+        <strong>Attributes</strong>
+    </h4>
+
+    <figure class="table">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <div class="gv-input-attribute" data-type="list">here's the inp attribute</div>
+            </td>
+            <td>
+              Some text after
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </figure>
+
+    <div class="gv-input-attribute" data-type="group"></div>
+    <div class="gv-input-attribute" data-type="email"></div>
+    <div class="gv-input-attribute" data-type="mobilenumber"></div>
+    <div class="gv-input-attribute" data-type="mobileservice"></div>
+    <div class="gv-input-attribute" data-type="textingmode"></div>
+    <div class="gv-input-attribute" data-type="list"></div>
+
+  </div>
+`;
