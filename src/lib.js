@@ -1,9 +1,12 @@
-import { load as htmlRead } from 'cheerio-nunjucks';
-import { html as htmlWrite } from 'cheerio-nunjucks';
+// Use normal jquery since we don't expect to see any Nunjucks
+// instructions embedded in the content within the CKEditor (only
+// used for incoming emails or in layout templates)
+
+const $ = require( "jquery" );
 
 const urlParse = require('url-parse');
 
-function checkForMetaImg($, elem, options) {
+function checkForMetaImg($doc, elem, options) {
     if (!options) { options = {}; }
 
     let change = false;
@@ -75,35 +78,36 @@ function checkForMetaImg($, elem, options) {
 
 
 export function convertMetaImgsToView(data) {
-
-    let $ = htmlRead(data);
+    data = '<div>' + data + '</div>';   // put in overall wrapper
+    let $doc = $(data);
 
     // Check <figure>s first, so we replace entire figure element
     // if the embedded img is a GV metaimg
-    $('figure').each( (i, elem) => {
-        checkForMetaImg($, elem);
+    $doc.find('figure').each( (i, elem) => {
+        checkForMetaImg($doc, elem);
     });
 
     // Then check individual images (i.e., include those that aren't
     // wrapped in <figure>s
-    $('img').each( (i, elem) => {
-        checkForMetaImg($, elem);
+    $doc.find('img').each( (i, elem) => {
+        checkForMetaImg($doc, elem);
     });
 
-    data = htmlWrite($);  // Render result
+    data = $doc.html();  // Render result within wrapper
 
     return data;
 }
 
 export function anyMetaImgEWs(data) {
-    let $ = htmlRead(data);
+    data = '<div>' + data + '</div>';   // put in overall wrapper
+    let $doc = $(data);
 
     let isChange = false;
 
     // Check <figure>s first, so we replace entire figure element
     // if the embedded img is a GV metaimg
-    $('figure').each( (i, elem) => {
-        if ( checkForMetaImg($, elem, {ewOnly:true}) ) {
+    $doc.find('figure').each( (i, elem) => {
+        if ( checkForMetaImg($doc, elem, {ewOnly:true}) ) {
             isChange = true;
             return false;
         }
@@ -116,8 +120,8 @@ export function anyMetaImgEWs(data) {
 
     // Then check individual images (i.e., include those that aren't
     // wrapped in <figure>s
-    $('img').each( (i, elem) => {
-        if ( checkForMetaImg($, elem, {ewOnly:true}) ) {
+    $doc.find('img').each( (i, elem) => {
+        if ( checkForMetaImg($doc, elem, {ewOnly:true}) ) {
             isChange = true;
             return false;
         }

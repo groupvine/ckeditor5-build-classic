@@ -25,7 +25,7 @@ export default class GVDataProcessor {
             console.log("DataProcessor.toView pre:", data.toString());
         }
 
-        let newData = convertMetaImgsToView(data);
+        let newData = convertMetaImgsToView(data, {debugLevel : this._dbgLevel});
 
         //
         // Now use original HTMLDataProcessor's toView() 
