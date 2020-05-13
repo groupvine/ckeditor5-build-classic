@@ -10,7 +10,9 @@ export default class GVDataProcessor {
     }
 
     toData( viewFragment ) {
-        console.log("DataProcessor.toData:", viewFragment.toString());
+        if (this._dbgLevel > 5) {
+            console.log("DataProcessor.toData:", viewFragment.toString());
+        }
         return this._htmlProc.toData(viewFragment);
     }
 
