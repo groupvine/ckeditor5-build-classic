@@ -7,6 +7,7 @@ import Model from '@ckeditor/ckeditor5-ui/src/model';
 
 import  ClickObserver from '@ckeditor/ckeditor5-engine/src/view/observer/clickobserver';
 
+import { DoubleClickObserver } from '../dblclick/dblclick';
 
 export default class EmailWidgetUI extends Plugin {
 
@@ -84,9 +85,10 @@ export default class EmailWidgetUI extends Plugin {
         const view = editor.editing.view;
         const viewDocument = view.document;
 
-        view.addObserver( ClickObserver );  // Only do this once per editor instance I assume?
+        // view.addObserver( ClickObserver );  // Only do this once per editor instance I assume?
+        view.addObserver( DoubleClickObserver );  // Only do this once per editor instance I assume?
 
-        editor.listenTo( viewDocument, 'click', ( evt, data ) => {
+        editor.listenTo( viewDocument, 'dblclick', ( evt, data ) => {
             const modelElement = editor.editing.mapper.toModelElement( data.target );
 
             if ( modelElement == null || modelElement.name !== 'gv-metatag' ) {
