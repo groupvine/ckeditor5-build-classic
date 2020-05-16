@@ -18,9 +18,8 @@ export default class EmailWidgetUI extends Plugin {
 
         const emailWidgetTypes = widgetConfig['types'];
         const canAddWidget     = widgetConfig['canAddWidget'];
-        const assignEwId       = widgetConfig['assignEwId'];      // BTW can't use editor.config.get() directly for 
-        const configEwDialog   = widgetConfig['configEwDialog'];  //     callback functions
-        const createEwDialog   = widgetConfig['createEwDialog'];  //     like these three
+        const configEw         = widgetConfig['configEw'];
+        const createEw         = widgetConfig['createEw'];
 
         // The "email-widget" dropdown must be registered among the UI components of the editor
         // to be displayed in the toolbar.
@@ -44,11 +43,11 @@ export default class EmailWidgetUI extends Plugin {
             // Execute the command when the dropdown item is clicked (executed).
             this.listenTo( dropdownView, 'execute', evt => {
                 if (evt.source.gv_action === 'createNewEW') {
-                    if (createEwDialog == null) {
+                    if (createEw == null) {
                         return alert("ERROR: no callback has been configured for creating a new EW");
                     }
 
-                    let ewId = createEwDialog( (results) => {
+                    createEw( (results) => {
                         if (results) {
                             if (results.error) {
                                 alert(results.error);
@@ -61,20 +60,21 @@ export default class EmailWidgetUI extends Plugin {
 
                 } else if (evt.source.gv_action === 'insertStdEW') {
                     let type = evt.source.commandParam;
-                    if (assignEwId == null) {
-                        return alert("ERROR: no callback has been configured for assigning the EW Id");
+                    if (createEw == null) {
+                        return alert("ERROR: no callback has been configured for cloning a standard EW");
                     }
 
-                    let ewId = assignEwId(type, (results) => {
+                    createEw((results) => {
                         if (results) {
                             if (results.error) {
                                 alert(results.error);
                             } else {
+                                // Using original type here, so Example image comes up quickly
                                 editor.execute( 'gv-metatag', { value: type, ewId : results.ewId } );
                                 editor.editing.view.focus();
                             }
                         }
-                    });
+                    }, type );
                 };
             } );
 
@@ -104,9 +104,9 @@ export default class EmailWidgetUI extends Plugin {
                 return;
             }
 
-            if (configEwDialog) {
-                configEwDialog(modelElement.getAttribute('type'),
-                               modelElement.getAttribute('ewId'));
+            if (configEw) {
+                configEw(modelElement.getAttribute('type'),
+                         modelElement.getAttribute('ewId'));
             }
         });
     }
