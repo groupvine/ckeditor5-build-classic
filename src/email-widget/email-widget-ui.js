@@ -49,11 +49,13 @@ export default class EmailWidgetUI extends Plugin {
                     }
 
                     let ewId = createEwDialog( (results) => {
-                        if (results.error) {
-                            alert(results.error);
-                        } else {
-                            editor.execute( 'gv-metatag', { value: results.ewType, ewId : results.ewId } );
-                            editor.editing.view.focus();
+                        if (results) {
+                            if (results.error) {
+                                alert(results.error);
+                            } else {
+                                editor.execute( 'gv-metatag', { value: results.ewType, ewId : results.ewId } );
+                                editor.editing.view.focus();
+                            }
                         }
                     });
 
@@ -64,11 +66,13 @@ export default class EmailWidgetUI extends Plugin {
                     }
 
                     let ewId = assignEwId(type, (results) => {
-                        if (results.error) {
-                            alert(results.error);
-                        } else {
-                            editor.execute( 'gv-metatag', { value: type, ewId : results.ewId } );
-                            editor.editing.view.focus();
+                        if (results) {
+                            if (results.error) {
+                                alert(results.error);
+                            } else {
+                                editor.execute( 'gv-metatag', { value: type, ewId : results.ewId } );
+                                editor.editing.view.focus();
+                            }
                         }
                     });
                 };
