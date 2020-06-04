@@ -5,6 +5,8 @@ import { addListToDropdown, createDropdown } from '@ckeditor/ckeditor5-ui/src/dr
 import Collection from '@ckeditor/ckeditor5-utils/src/collection';
 import Model from '@ckeditor/ckeditor5-ui/src/model';
 
+import { isMobile } from '../lib';
+
 
 export default class UserAttributeUI extends Plugin {
 
@@ -22,13 +24,14 @@ export default class UserAttributeUI extends Plugin {
 
             // Populate the list in the dropdown with items.
             addListToDropdown( dropdownView, getDropdownItemsDefinitions( userAttTypes ) );
+            let isMob = isMobile();
 
             dropdownView.buttonView.set( {
                 // The t() function helps localize the editor. All strings enclosed in t() can be
                 // translated and change when the language of the editor changes.
-                label: t( 'Personalize' ),
+                label: (isMob ? t('P') : t('Personalize')),
                 tooltip: "Insert member attribute or other recipient-specific value",
-                class: 'personalizeMenu',
+                class: (isMob ? 'personalizeMenuMob' : 'personalizeMenu'),
                 withText: true
             } );
 

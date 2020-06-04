@@ -131,4 +131,27 @@ export function anyMetaImgEWs(data) {
     return isChange;
 }
 
+//
+// Copied from gv-mailweb/client/.../window.service.ts
+//
 
+export function isMobile() {
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        return true;
+    }
+    let size = computeWindowSize();
+
+    if ( (Math.min(size.width, size.height) <= 550) &&
+         (Math.max(size.width, size.height) <= 1000) ) {
+        return true;
+    }
+
+    return false;
+}
+
+export function computeWindowSize() {
+    return  {
+        height : window.innerHeight, 
+        width  : window.innerWidth
+    };
+}

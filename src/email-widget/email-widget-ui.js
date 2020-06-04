@@ -8,6 +8,7 @@ import Model from '@ckeditor/ckeditor5-ui/src/model';
 import  ClickObserver from '@ckeditor/ckeditor5-engine/src/view/observer/clickobserver';
 
 import { DoubleClickObserver } from '../dblclick/dblclick';
+import { isMobile }            from '../lib';
 
 export default class EmailWidgetUI extends Plugin {
 
@@ -31,12 +32,14 @@ export default class EmailWidgetUI extends Plugin {
             // Populate the list in the dropdown with items.
             addListToDropdown( dropdownView, getDropdownItemsDefinitions( emailWidgetTypes, canAddWidget ) );
 
+            let isMob = isMobile();
+
             dropdownView.buttonView.set( {
                 // The t() function helps localize the editor. All strings enclosed in t() can be
                 // translated and change when the language of the editor changes.
-                label: t( 'Widget' ),
+                label: (isMob ? t('W') : t('Widget')),
                 tooltip: "Insert email widget",
-                class: 'widgetMenu',
+                class: (isMob ? 'widgetMenuMob' : 'widgetMenu'),
                 withText: true
             } );
 
