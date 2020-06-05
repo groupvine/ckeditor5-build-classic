@@ -39,7 +39,7 @@ export default class EmailWidgetUI extends Plugin {
                 // translated and change when the language of the editor changes.
                 label: (isMob ? t('W') : t('Widget')),
                 tooltip: "Insert email widget",
-                class: (isMob ? 'widgetMenuMob' : 'widgetMenu'),
+                class: 'widgetMenu',   // handled in styles.scss (isMob ? 'widgetMenuMob' : 'widgetMenu'),
                 withText: true
             } );
 
