@@ -16,6 +16,9 @@ https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/advanced-se
 For bringing up to date with latest master, see:
 
 https://philna.sh/blog/2018/08/21/git-commands-to-keep-a-fork-up-to-date/
+https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
+
+(See note below when upstream repo was changed.)
 
 Commit and push any local changes, then:
 
@@ -43,4 +46,27 @@ npm run build
 Also, check whether ckEditorContentStyling() styles need updating (in
 gv-types/style.ts, and
 [here](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/content-styles.html)
+
+### Upstream repo location change
+
+In April/May, 2020, the upstream repo was moved from
+
+```
+https://github.com/ckeditor/ckeditor5-build-classic.git
+```
+
+to:
+
+
+```
+https://github.com/ckeditor/ckeditor5/tree/master/packages/ckeditor5-build-classic
+```
+
+Refrencing
+[this](https://help.github.com/en/github/using-git/changing-a-remotes-url),
+I used the following to change this (in local .git/config):
+
+```
+git remote set-url upstream https://github.com/ckeditor/ckeditor5/tree/master/packages/ckeditor5-build-classic
+```
 
