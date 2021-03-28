@@ -104,6 +104,7 @@ export default class UserAttributeEditing extends Plugin {
             let src = metaImgBaseUrl + '/' + attType;
             if (attEwId != null) {
                 src += "?ewid=" + attEwId;
+                src += "&_=" + Math.round(now.getTime() / 1000);   // cache-buster, for latest metaimg version
             }
 
             const userAttributeView = viewWriter.createContainerElement( 'img', {src : src});
